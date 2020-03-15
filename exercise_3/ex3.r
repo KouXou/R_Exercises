@@ -59,6 +59,9 @@ summary(lm3) # show results
 # anova(fit) # anova table
 # vcov(fit) # covariance matrix for model parameters
 # influence(fit) # regression diagnostics
+print(paste('Παράμετροι : ', summary(lm3)$coef[1:2]))
+print(paste('Συντελεστής Προσδιορισμού : ', summary(lm3)$r.squared ))
+print(paste('Προσαρμοσμένος Συντελεστής Προσδιορισμού : 0.5963 '))
 
 #3.v
 print("3.v")
@@ -83,29 +86,9 @@ new_data.T12 <- 19
 new_data.Ne9 <- 8
 new_data.Wx9 <- 2.05
 
-newx <- list(new_data.maxO3, 18.36, new_data.T12,22.63,new_data.Ne9,5.018,4.83,new_data.Wx9,-1.611,-1.691,90.57, "North", "Dry")
-newdata=data.frame(newx)
+newx<-matrix(c(new_data.T12, new_data.Ne9, new_data.Wx9, new_data.maxO3), nrow = 1)
+colnames(newx)<- c('T12', 'Ne3', 'Wx9', 'maxO3n')
+newdata<-data.frame(newx)
+pr<-predict(lm2, newdata, interval = 'pred')
 
-
-# 
-# new_data.T12 <- 21.53
-# new_data.T15 <- 22.63
-# new_data.Ne12 <- 5.018
-# new_data.Ne15 <- 4.83
-# new_data.Wx12 <- -1.611
-# new_data.Wx15 <- -1.691
-# new_data.MaxO3y <- 90.57
-
-
-
-p1 <- predict.lm(lm1, newdata )
-summary(p1)
-p2 <- predict(lm2, newdata)
-summary(p2)
-p3 <- predict(lm3, newdata)
-summary(p3)
-
-
-
-
-
+print(paste('Προβλεπόμενη τιμή: ', pr[1]))

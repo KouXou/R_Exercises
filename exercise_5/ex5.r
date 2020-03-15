@@ -41,10 +41,23 @@ geom_point(position="identity")
 ggplot(iris_order_by_sepal_width, aes(x=Petal.Length, y= Petal.Width,fill=Species, color=Species)) +
 geom_line()
 
+#  II
+op <- par(bg = "grey")
+matplot(iris$Sepal.Length, iris[,-c(1,5)], pch = "123",xlab = "Sepal Length",
+        ylab = "Sepal Width + Petal Length + Petal Width",col= rainbow(4),
+       main = "Scatter Plot: Sepal Length ~ Sepal Width + Petal Length + Petal Width")
+legend("topleft",1, 95, legend =c("Sepal Width", "Petal Length","Petal Width"),pch = "123",
+        col = rainbow(4))
+par(op)
+
 #5.B
 babies_file_path<- './babies.data.txt'
 babies_data <- read.table(babies_file_path, header = TRUE,  sep = " ", dec = ".") 
 head(babies_data)
+
+# scatterplotMatrix()
+scatterplotMatrix(formula = ~birth.weight+gestation+not.first.born+mom.age+mom.height+mom.weight+mom.smokes,
+                 data = babies_data)
 
 input <- babies_data[,c("gestation", "not.first.born", "mom.age", "mom.height", "mom.weight", "mom.smokes")]
 birth.weight <- babies_data[,c("birth.weight")]
@@ -52,19 +65,14 @@ model = lm(birth.weight~gestation+not.first.born+mom.age+mom.height+mom.weight+m
 # Show the model.
 summary(model)
 
-# Get the Intercept and coefficients as vector elements.
-cat("# # # # The Coefficient Values # # # ","\n")
-
-a <- coef(model)[1]
+a <- coef(model)
+print('Παράμετροι')
 print(a)
 
+
 library(corrplot)
+cor(babies_data, birth.weight)
 res <-cor(babies_data)
 corrplot(res, order = "hclust", 
          tl.col = "black", tl.srt = 45)
-
-
-scatterplotMatrix(input,var.labels = TRUE, #smoother.args=list(lty=2),
-main="Scatter Plot Matrix")
-
-
+print('O gestation είναι ο βασικός παράγοντας που επιδρά στο birth.weight')
