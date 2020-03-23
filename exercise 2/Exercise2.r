@@ -22,8 +22,8 @@ eval1 <-prediction(resdf$PM1, resdf$True_Class)
 eval2 <-prediction(resdf$PM2, resdf$True_Class)
 plot(performance(eval1,"tpr","fpr"), col="green")
 plot(performance(eval2,"tpr","fpr"),add=TRUE, col="blue")
-print(attributes(performance(eval1,'auc'))$y.values[[1]])
-print(attributes(performance(eval2,'auc'))$y.values[[1]])
+print(paste('AUC1 : ',attributes(performance(eval1,'auc'))$y.values[[1]]))
+print(paste('AUC2 : ',attributes(performance(eval2,'auc'))$y.values[[1]]))
 # M1 > M2
 
 # ii
@@ -31,6 +31,7 @@ df1<-resdf[order(-resdf$PM1),]
 df1
 
 confusion_matrix<-table(truth=resdf$True_Class,prediction=resdf$PM1>0.5)
+print('Πίνακας Κόστους')
 confusion_matrix
 
 TN<-confusion_matrix[1,1] # TRUE NEGATIVE
@@ -40,18 +41,19 @@ FP<-confusion_matrix[1,2] # FALSE POSITIVE
 
 #ACCURACY
 accuracy<-(TP+TN)/sum(confusion_matrix)
-accuracy
 
 #PRECISION
 precision<-TP/(TP+FP)
-precision
+
 #RECALL
 recall<-TP/(TP+FN)
-recall
 
 # F1 Score
 f1_score<-(2*precision*recall)/(precision+recall)
-f1_score
+
+print(paste('Ακρίβεια : ',accuracy))
+print(paste('Ανάκληση : ',recall))
+print(paste('Μέτρο F : ',f1_score))
 
 #iii
 df2<-resdf[order(-resdf$PM2),]
@@ -64,18 +66,22 @@ TN<-confusion_matrix2[1,1] # TRUE NEGATIVE
 TP<-confusion_matrix2[2,2] # TRUE POSITIVE
 FN<-confusion_matrix2[2,1] # FALSE NEGATIVE
 FP<-confusion_matrix2[1,2] # FALSE POSITIVE
+
 #ACCURACY
 accuracy<-(TP+TN)/sum(confusion_matrix)
-accuracy
+
 #PRECISION
 precision<-TP/(TP+FP)
-precision
+
 #RECALL
 recall<-TP/(TP+FN)
-recall
+
 # F1 Score
 f1_score<-(2*precision*recall)/(precision+recall)
-f1_score
+
+print(paste('Ακρίβεια : ',accuracy))
+print(paste('Ανάκληση : ',recall))
+print(paste('Μέτρο F : ',f1_score))
 
 #iv
 confusion_matrix3<-table(truth=resdf$True_Class,prediction=resdf$PM1>0.1)
@@ -87,15 +93,16 @@ FN<-confusion_matrix3[2,1] # FALSE NEGATIVE
 FP<-confusion_matrix3[1,2] # FALSE POSITIVE
 #ACCURACY
 accuracy<-(TP+TN)/sum(confusion_matrix)
-accuracy
+
 #PRECISION
 precision<-TP/(TP+FP)
-precision
+
 #RECALL
 recall<-TP/(TP+FN)
-recall
+
 # F1 Score
 f1_score<-(2*precision*recall)/(precision+recall)
-f1_score
 
-
+print(paste('Ακρίβεια : ',accuracy))
+print(paste('Ανάκληση : ',recall))
+print(paste('Μέτρο F : ',f1_score))
